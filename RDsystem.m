@@ -24,14 +24,20 @@ if nargin < 4, u0 = []; end
 % ------ Compute QoI's from solution -------------------------------------
 % assemble solution samples
 if isempty(ie)
-    samps = [sol(:,:,1);sol(:,:,2)];
+%    samps = [sol(:,:,1);sol(:,:,2)];
+    % XH: excluding IC?
+    samps = [sol(2:end,:,1);sol(2:end,:,2)];
 else                    % handle abnormal event (exponential growth/decay)
     tr = t(t>=te); tr = tr(:);
-    samps = [sol(1:end-1,:,1);abs(sole(1,:,1)).^(tr/te);
-             sol(1:end-1,:,2);abs(sole(1,:,2)).^(tr/te)];
+%    samps = [sol(1:end-1,:,1);abs(sole(1,:,1)).^(tr/te);
+%             sol(1:end-1,:,2);abs(sole(1,:,2)).^(tr/te)];
+    % XH: excluding IC?
+    samps = [sol(2:end-1,:,1);abs(sole(1,:,1)).^(tr/te);
+             sol(2:end-1,:,2);abs(sole(1,:,2)).^(tr/te)];
 end
 % mean of local max's and min's
 minmax = fieldMinMax(samps);
+
 % mean & std of bump-size distribution
 threshold = 0.5; dx = mean(diff(x));
 meanstd = sizeMeanStd(samps,threshold,dx,minmax);

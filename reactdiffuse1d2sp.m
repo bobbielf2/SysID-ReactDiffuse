@@ -66,7 +66,7 @@ if 0 % change to 1 to plot the solution
         title(['time = ',num2str(dt*(i-1))])
         drawnow
     end
-    keyboard
+%    keyboard
 end
 
 
