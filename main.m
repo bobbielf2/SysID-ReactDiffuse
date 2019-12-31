@@ -65,7 +65,7 @@ switch method
   drscale  = 0; 
   adaptint = 100;
  case 'dram'
-  nsimu    = 3000;
+  nsimu    = 30000;
   drscale  = 2; 
   adaptint = 100;
 end
@@ -75,8 +75,8 @@ end
 model.lnLikelihood    = @my_lnLikelihood;
 model.lnPrior = @my_lnPrior;
 
-params.par0    = ones(1,nparams)*0.01; % initial parameter values
-%params.par0 = [.01,  .4, 0.1,  -1,   0,   1, 0.9,   0,   0,  -1];
+%params.par0    = ones(1,nparams)*0.5; % initial parameter values
+params.par0 = [.01,  .4, 0.1,  -1,   0,   1, 0.9,   0,   0,  -1];
 params.n       = -1;    % number of observations % DEACTIVATE FOR NOW
 params.sigma2  = 1;  % prior for error variance sigma^2 % DEACTIVATE FOR NOW
 params.n0      = 1;    % prior accuracy for sigma^2
@@ -88,7 +88,28 @@ params.parsig0  = ones(1,nparams)*2;;            % prior std of theta
 options.nsimu    = nsimu;               % size of the chain
 options.adaptint = adaptint;            % adaptation interval
 options.drscale  = drscale;
-options.qcov     = eye(nparams,nparams)*1e-1;      % initial proposal covariance 
+%options.qcov     = eye(nparams,nparams)*1e-2;      % initial proposal covariance 
+options.qcov = [    9.6279e-06    1.283e-05   0.00011859   -0.0004412   -2.166e-05 ...
+                    0.00040131  -0.00011012   0.00036685  -3.8164e-05   -0.00025168;
+    1.283e-05    0.0020935  -0.00016269    0.0023743  -0.00012774   -0.0058966    0.0028876 ...
+                    -0.0028077   0.00022461     0.0030311;
+   0.00011859  -0.00016269     0.010236    -0.027527   -0.0025137     0.021304   -0.0062778 ...
+                    0.021252   -0.0027936     -0.014034;
+   -0.0004412    0.0023743    -0.027527     0.090705    0.0056354    -0.079086 ...
+                    0.023473    -0.073306    0.0085081      0.051631;
+   -2.166e-05  -0.00012774   -0.0025137    0.0056354   0.00074959   -0.0036176   0.00098428 ...
+                    -0.0042627    0.0004458     0.0026801;
+   0.00040131   -0.0058966     0.021304    -0.079086   -0.0036176     0.085881    -0.029933 ...
+                    0.065416   -0.0073013     -0.047901;
+  -0.00011012    0.0028876   -0.0062778     0.023473   0.00098428    -0.029933 ...
+                    0.012035    -0.019366    0.0021255      0.014583;
+   0.00036685   -0.0028077     0.021252    -0.073306   -0.0042627     0.065416    -0.019366 ...
+                    0.061729   -0.0062406     -0.045181;
+  -3.8164e-05   0.00022461   -0.0027936    0.0085081    0.0004458   -0.0073013    0.0021255 ...
+                    -0.0062406    0.0018947     0.0039184;
+  -0.00025168    0.0030311    -0.014034     0.051631    0.0026801    -0.047901 ...
+                    0.014583    -0.045181    0.0039184       0.03518];
+
 options.printint = 100; % display frequency
 
 % run the chain
