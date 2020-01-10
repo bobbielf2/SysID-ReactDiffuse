@@ -46,7 +46,13 @@ mybc = @RDbc;
 % define event function
 opt = odeset('Events',@myEvent);
 
+%tic
 [sol,t,sole,te,ie] = pdepe(0,mypde,myic,mybc,x,t,opt);
+% fprintf('ie = %d\n ',ie)
+%sol = pdepe(0,mypde,myic,mybc,x,t);
+%sole = []; te = []; ie = [];
+%toc
+
 % ie indicates which species's magnitude has exceeded 100 
 % te is the time when the above event happens
 % sole are the solutions at te
@@ -66,7 +72,7 @@ if 0 % change to 1 to plot the solution
         title(['time = ',num2str(dt*(i-1))])
         drawnow
     end
-%    keyboard
+   keyboard
 end
 
 
@@ -92,7 +98,7 @@ n = numel(xmesh);
 k = numel(umesh)/n;
 value = zeros(k,1);
 for i = 1:k
-    value(i) = max(abs(umesh(i:k:end)),[],'all')>1e4;
+    value(i) = max(abs(umesh(i:k:end)),[],'all')>1e2;
 end
 isterminal = true(size(value));
 direction = zeros(size(value));

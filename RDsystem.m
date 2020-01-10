@@ -19,6 +19,7 @@ end
 if nargin < 4, u0 = []; end
 
 % ------ Reaction-diffusion equation solver ------------------------------
+theta(1:2) = exp(theta(1:2)); % exponentiate to retrieve diffusivities
 [sol, tsol, x, ~, sole, te, ie] = reactdiffuse1d2sp(t,x,u0,theta);
 
 % ------ Compute QoI's from solution -------------------------------------
